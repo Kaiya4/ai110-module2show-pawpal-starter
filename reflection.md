@@ -5,12 +5,16 @@
 **a. Initial design**
 
 - Briefly describe your initial UML design.
+It will have pets, owner, tasks, and scheduler. With one owner being with multiple dogs with multiple tasks. 
+Some core actions will be registering pets, creating a task, and generating a schedule.
 - What classes did you include, and what responsibilities did you assign to each?
+I included a owner, pet, task, and scheduler class. The owner will have available minutes, their name, and the pets. The pet will have species, name, and task. The task will have a title, duration, and priority. The scheduler will have owner and list of schedule tasks.
 
 **b. Design changes**
 
 - Did your design change during implementation?
 - If yes, describe at least one change and why you made it.
+Yes, the design changed during implementation because the priority sorting was wrong since it would go alphabetically and instead of how important it is. 
 
 ---
 
