@@ -88,9 +88,6 @@ tests/test_pawpal.py .....                                                      
 My confidence level in the system's reliability would be a 5/5 since the test results all pass and I understand what the test purpose are for. 
 ```
 
-## 📐 Smarter Scheduling
-
-> Fill in once you've implemented scheduling logic.
 
 ## 📐 Smarter Scheduling
 
