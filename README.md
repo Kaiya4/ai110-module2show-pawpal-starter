@@ -60,28 +60,46 @@ Paste a sample of your app's CLI or Streamlit output here so a reader can see wh
 
 ```bash
 # Run the full test suite:
-pytest
+python -m pytest
 
 # Run with coverage:
 pytest --cov
+
+#What these tests cover:
+#Task Management: Verifies that tasks can be correctly added to a pet's list and successfully marked as complete.  #Sorting Correctness: Verifies that the scheduler properly sorts tasks by highest priority first.  
+#Recurrence Logic: Confirms that marking a "daily" task as complete successfully generates a new task instance scheduled for the next day.  
+#Conflict Detection: Verifies that the system correctly generates a warning when multiple tasks are assigned the exact same time.  
 ```
 
 Sample test output:
 
 ```
 # Paste your pytest output here
+========================================================= test session starts =========================================================
+platform darwin -- Python 3.13.13, pytest-9.1.1, pluggy-1.6.0
+rootdir: /Users/kdeng/Documents/CodePath/ai110-module2show-pawpal-starter
+plugins: anyio-4.14.1
+collected 5 items                                                                                                                     
+
+tests/test_pawpal.py .....                                                                                                      [100%]
+
+========================================================== 5 passed in 0.02s ==========================================================
+
+My confidence level in the system's reliability would be a 5/5 since the test results all pass. 
 ```
 
 ## 📐 Smarter Scheduling
 
 > Fill in once you've implemented scheduling logic.
 
+## 📐 Smarter Scheduling
+
 | Feature | Method(s) | Notes |
 |---------|-----------|-------|
-| Task sorting | | e.g., by priority, duration |
-| Filtering | | e.g., skip tasks if time runs out |
-| Conflict handling | | e.g., overlapping time slots |
-| Recurring tasks | | e.g., daily vs. weekly |
+| Task sorting | `Scheduler.generate_plan()` | Sorts tasks using `lambda t: t.priority` to ensure high-priority tasks are scheduled first before time runs out. |
+| Filtering | `Scheduler.generate_plan()` | Filters tasks by checking their completion status (`task.completed`) and whether their frequency matches the `current_day`. |
+| Conflict handling | `Scheduler.check_conflicts()` | Uses a lightweight dictionary to track start times and returns warning messages if multiple tasks share the same time slot. |
+| Recurring tasks | `Task.mark_complete()` & `Scheduler.complete_task()` | Calculates the next occurrence using Python's `timedelta` and automatically generates a new task instance when marked complete. |
 
 ## 📸 Demo Walkthrough
 
