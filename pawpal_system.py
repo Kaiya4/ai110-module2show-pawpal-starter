@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List
 from enum import IntEnum
+from datetime import date, timedelta
 
 class Priority(IntEnum):
     LOW = 1
@@ -14,12 +15,33 @@ class Task:
     duration: int
     priority: Priority
     pet_name: str
+    time: str = "00:00" 
     frequency: str = "daily"
     completed: bool = False
+    due_date: date = field(default_factory=date.today)
 
-    def mark_complete(self) -> None:
-        """Marks the task as completed."""
+    def mark_complete(self) -> 'Task':
+        """Marks the task as completed and returns a new instance if recurring."""
         self.completed = True
+        
+        if self.frequency.lower() == "daily":
+            new_date = self.due_date + timedelta(days=1)
+        elif self.frequency.lower() == "weekly":
+            new_date = self.due_date + timedelta(days=7)
+        else:
+            return None
+            
+        return Task(
+            name=self.name,
+            description=self.description,
+            duration=self.duration,
+            priority=self.priority,
+            pet_name=self.pet_name,
+            time=self.time,
+            frequency=self.frequency,
+            completed=False,
+            due_date=new_date
+        )
 
 @dataclass
 class Pet:
@@ -58,6 +80,31 @@ class Scheduler:
     def __init__(self, owner: Owner):
         self.owner = owner
         self.daily_plan: List[Task] = []
+    
+    def check_conflicts(self) -> List[str]:
+        """Lightweight conflict detection that returns a list of warning messages."""
+        warnings = []
+        seen_times = {}
+        
+        for task in self.owner.get_all_tasks():
+            if task.completed:
+                continue
+                
+            if task.time in seen_times:
+                conflict_task = seen_times[task.time]
+                warnings.append(
+                    f"WARNING: Time conflict at {task.time} between '{conflict_task.name}' ({conflict_task.pet_name}) and '{task.name}' ({task.pet_name})."
+                )
+            else:
+                seen_times[task.time] = task
+                
+        return warnings
+
+    def complete_task(self, task: Task, pet: Pet) -> None:
+        """Completes a task and schedules the next occurrence if applicable."""
+        next_task = task.mark_complete()
+        if next_task:
+            pet.add_task(next_task)
 
     def edit_task(self, task: Task, new_duration: int, new_priority: Priority) -> bool:
         """Updates an existing task's duration and priority level."""
