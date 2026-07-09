@@ -85,7 +85,7 @@ tests/test_pawpal.py .....                                                      
 
 ========================================================== 5 passed in 0.02s ==========================================================
 
-My confidence level in the system's reliability would be a 5/5 since the test results all pass. 
+My confidence level in the system's reliability would be a 5/5 since the test results all pass and I understand what the test purpose are for. 
 ```
 
 ## 📐 Smarter Scheduling
@@ -101,14 +101,25 @@ My confidence level in the system's reliability would be a 5/5 since the test re
 | Conflict handling | `Scheduler.check_conflicts()` | Uses a lightweight dictionary to track start times and returns warning messages if multiple tasks share the same time slot. |
 | Recurring tasks | `Task.mark_complete()` & `Scheduler.complete_task()` | Calculates the next occurrence using Python's `timedelta` and automatically generates a new task instance when marked complete. |
 
+## ✨ Features
+
+1. **Priority-Based Sorting:** The scheduler organizes tasks by highest priority first.
+2. **Constraint Filtering:** Tasks are only scheduled if they match the current day and fit within the available time limit.
+3. **Conflict Detection:** The system warns you if multiple tasks share the exact same time slot.
+4. **Task Recurrence:** Marking a task as complete automatically generates a new instance for the next due date
+
 ## 📸 Demo Walkthrough
 
 Describe your app in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. **Initialize Profile:** Enter the owner's name and add a pet's name and species
+2. **Add Tasks:** Input the task's title, duration, priority level, and time
+3. **Detect Overlaps:** The app will display a visual warning if you schedule multiple tasks at the exact same time
+4. **Generate Schedule:** Click to produce a clean table showing your daily plan, prioritized by importance and bounded by your available time
+
+**Sample CLI Output (`main.py`)**:
+```text
+--- Checking for Schedule Conflicts ---
+WARNING: Time conflict at 08:00 between 'Morning Walk' (Biscuit) and 'Give Meds' (Luna).
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->

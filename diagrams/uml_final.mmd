@@ -1,0 +1,52 @@
+classDiagram
+    class Priority {
+        <<enumeration>>
+        LOW : 1
+        MEDIUM : 2
+        HIGH : 3
+    }
+
+    class Owner {
+        +name: str
+        +available_minutes: int
+        +pets: list~Pet~
+        +add_pet(pet: Pet)
+        +set_available_time(minutes: int)
+        +get_all_tasks() list~Task~
+    }
+
+    class Pet {
+        +name: str
+        +species: str
+        +tasks: list~Task~
+        +add_task(task: Task)
+        +remove_task(task: Task)
+    }
+
+    class Task {
+        +name: str
+        +description: str
+        +duration: int
+        +priority: Priority
+        +pet_name: str
+        +time: str
+        +frequency: str
+        +completed: bool
+        +due_date: date
+        +mark_complete() Task
+    }
+
+    class Scheduler {
+        +owner: Owner
+        +daily_plan: list~Task~
+        +check_conflicts() list~str~
+        +complete_task(task: Task, pet: Pet)
+        +edit_task(task: Task, new_duration: int, new_priority: Priority) bool
+        +generate_plan(current_day: str)
+        +explain_plan() str
+    }
+
+    Task --> Priority : has
+    Owner "1" *-- "*" Pet : owns
+    Pet "1" *-- "*" Task : has
+    Scheduler --> Owner : uses
